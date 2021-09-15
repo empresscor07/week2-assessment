@@ -6,9 +6,6 @@
      background-image: url('http://www.lauraandkevinfox.com/wp-content/uploads/2016/02/Real-Estate-Today-Laura-And-Kevin-Fox-2.jpg');
      background-image: url(https://assets.dmagstatic.com/wp-content/uploads/2019/07/dallas-real-estate-market-2.jpg) ;
 }
-.main {
-
-}
  div.transbox {
      margin: 20px;
      background-color: #ffffff;
@@ -18,7 +15,18 @@
 
  div.transbox h1 {
      color: black;
+     font-family: "Bell MT";
  }
- div.transbox h2 {
+ div.transbox h3 {
      color: #483D8B;
+     font-family: Bell;
+ }
+
+.main h2 {
+     font-family: "Bell MT";
+     color: #483D8B;
+     text-align: center;
+ }
+ .navbar{
+     margin-bottom:0;
  }
