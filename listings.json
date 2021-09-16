@@ -1,0 +1,38 @@
+[
+  {
+    "id": 2091,
+    "fname": "Dorci'A",
+    "lname": "Rannila",
+    "yrblt": "2018-06-06T22:45:52.247Z",
+    "price": 500000,
+    "new": true,
+    "sqft": 6200,
+    "baths": 7,
+    "beds": 4,
+    "street": "1484 Massa Ct",
+    "city": "Collierville",
+    "state": "TN",
+    "zip": 38027,
+    "listing": "MIDSOUTH RESIDENTIAL LLC",
+    "image": "https://photos.zillowstatic.com/fp/ee3e1cb35524111c4
+    93ed576c4e9fb72-p_e.jpg"
+  },
+  {
+    "id": 2092,
+    "fname": "Luzinda",
+    "lname": "Red",
+    "yrblt": "2019-06-30T12:06:23.532Z",
+    "price": 349000,
+    "new": false,
+    "sqft": 3500,
+    "baths": 7,
+    "beds": 6,
+    "street": "6589 Porttitor Ln",
+    "city": "Collierville",
+    "state": "TN",
+    "zip": 38139,
+    "listing": "CRYE-LEIKE INC REALTORS"
+    "image": "https://photos.zillowstatic.com/fp/ee3e1cb35524111c4
+    93ed576c4e9fb72-p_e.jpg"
+  }
+]
