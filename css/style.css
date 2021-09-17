@@ -94,10 +94,14 @@
 .fade-in{
     display: none;
 }
+#slide{
+    display: none;
+}
 
 /* Standard element styles */
 body{
     background: #dfe9f5;
+    background-image: url(Mobile-Background.jpg);
 }
  .center{
      text-align: center;

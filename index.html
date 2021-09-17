@@ -11,12 +11,16 @@
     <script>
 
         $(document).ready(function (){
-            $("#fade-effect").mouseenter(function (){
-                $("#fade-in").fadeIn("slow");
-            });
             $("#fade-effect").mouseleave(function (){
                 $("#fade-in").fadeOut("slow");
             });
+            $("#fade-effect").mouseenter(function (){
+                $("#fade-in").fadeIn("slow");
+            });
+            $("#slide-event").mouseenter(function (){
+                $("#slide").slideDown("slow");
+            });
+
             // run every 4s
             setInterval('cycleImages()', 4000);
         });
@@ -49,7 +53,7 @@
 </nav>
 
 <!--Page title-->
-<div class="background jumbotron jumbotron-fluid text-center">
+<div id="slide-event" class="background jumbotron jumbotron-fluid text-center">
     <div class="transbox">
     <h1>Johnson & Burns Real Estate</h1>
     <h3>Proud Partners in Real Estate since 2021</h3>
@@ -57,7 +61,7 @@
 </div>
 
 <div id="fade-effect" class="container-fluid main display-4">
-    <h2>This could be your NEW HOME</h2>
+    <h2 id="slide">This could be your NEW HOME</h2>
     <div class="top-listing">
         <div class="container">
             <!--<img class="img-fluid rounded center" src="https://las-vegas-real-estate-authority.com/wp-content/uploads/2013/01/Million-Dollar-Homes-Las-Vegas-For-Sale.jpg">-->
