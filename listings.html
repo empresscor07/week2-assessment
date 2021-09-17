@@ -18,31 +18,33 @@
         const url = "http://3.21.225.172:8080/api/realestate/getByRowAmount?rows=";
         const urlShort = "http://3.21.225.172:8080/api/";
         function requestListings() {
-            console.log("hello1")
-            const record_count = parseInt(document.getElementById("num_rec").value);
+            //request user entered parameter to determine how many records to pull
             const value_Requested = document.getElementById("num_rec").value
-            console.log(value_Requested);
+            //add request value to url string to create final url
             const requestURL = url + value_Requested;
-            console.log(requestURL);
             const ourRequest = new XMLHttpRequest();
             ourRequest.open('GET', requestURL);
             ourRequest.onload =
+                //use json function to read the text from the response and split into a javascript array
                 function () {
-                    console.log("hello2");
-                    console.log(ourRequest.responseText)
                     var ourData = JSON.parse(ourRequest.responseText);
+                    //calls function that generates table with array ourData
                     updateData(ourData);
                 };
             ourRequest.send();
         }
+        //fu
         function updateData(data) {
-            var htmlString = "";
+            //Clear out table data if it exists
+            if (document.getElementById("records").innerHTML != ""){
+                document.getElementById("records").innerHTML = "";
+            }
+            //generate updated table data
             let table = document.querySelector("table");
-            let headerData = Object.keys(data[0]);
             generateTableHead(table);
             generateTable(table, data);
-
         }
+        //function to create the row of table header data
         function generateTableHead(table) {
             const fields = ["First Name", "Last Name", "Year Built", "New Build", "Square Ft.", "Baths", "Beds", "Street", "City", "State", "Zip", "Listing", "Photo"];
             let thead = table.createTHead();
@@ -54,11 +56,12 @@
                 row.appendChild(th);
             }
         }
+        //function to create and fill the data fields of the results table
         function generateTable(table, data) {
             for (let element of data) {
                 let row = table.insertRow();
-                for (key in element) {
-                    if (key != "id"){
+                for (let key in element) {
+                    if (key !== "id"){
                         let cell = row.insertCell();
                         let text = document.createTextNode(element[key]); cell.appendChild(text);
                     }
@@ -69,6 +72,7 @@
     </script>
 </head>
 <body>
+
 <!--Navigation Bar-->
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -102,7 +106,7 @@
     <div id="listing-cont" class="container">
         <p id="test"></p>
 
-        <table id="records" borderspacing="0">
+        <table id="records">
             <!-- here goes our data! -->
         </table>
     </div>
