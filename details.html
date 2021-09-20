@@ -6,7 +6,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="js\script.js"></script>
     <link rel="stylesheet" href="css\style.css">
+    <style>
+        #details {
+            background: lightsteelblue;
+        }
+    </style>
+    <script>
+        $(document).ready(function (){
+            displaySelectedHouse();
+        });
+    </script>
 </head>
 <body>
 
@@ -32,12 +43,8 @@
         <h3>Johnson & Burns Proud Partners in Real Estate since 2021</h3>
     </div>
 </div>
-<div class="container">
-    <p id="test"></p>
+<div id="details" class="container">
 
-    <table id="details">
-        <!-- here goes our data! -->
-    </table>
 </div>
 
 <!--footer-->

@@ -4,6 +4,8 @@ const url = "http://3.21.225.172:8080/api/realestate/all";
 const urlShort = "http://3.21.225.172:8080/api/";
 let minPrice = 0;
 let maxPrice = 10000000000000000000;
+let imgId = "house-7.jpg"
+let correctObject = false;
 const exampleHouse = {
     id: 2091,
     fname: "Dorci'A",
@@ -21,8 +23,9 @@ const exampleHouse = {
     listing: "MIDSOUTH RESIDENTIAL LLC",
     image: "house-7.jpg"
 };
-let mostExpensiveHouse = exampleHouse;
-//functions for home page
+let selectedHouse = exampleHouse;
+
+//FUNCTIONS FOR INDEX PAGE (HOME PAGE)
 function displayTopHouses() {
     const requestURL = url;
     const ourRequest = new XMLHttpRequest();
@@ -129,7 +132,7 @@ function findMostBaths(data) {
     return mostBathsImg;
 }
 
-//functions for listings page
+//FUNCTIONS FOR LISTINGS PAGE
 function requestListings() {
     //request user entered parameter to determine low price and high price -- if fields left empty keep values as set above
     if (document.getElementById("min_price").value !== "") {
@@ -203,7 +206,7 @@ function generateTable(table, data) {
                                     let imgURL = urlShort + element[key];
                                     console.log(imgURL);
                                     let picName = element[key];
-                                    let text = "<a id= '" + picName + "' href='details.html'><img height=100 width=160 src='" + urlShort + element[key] + "' /></a>";
+                                    let text = "<a id= '" + picName + "' onclick='setHouseObject(" + picName + ")' href='details.html'><img height=100 width=160 src='" + urlShort + element[key] + "' /></a>";
                                     //testing   let text = "<a id= '" + picName + "' " + "onclick= '" + setPicName() "' + href='details.html'><img height=100 width=100 src='" + urlShort + element[key] + "' /></a>";
                                     console.log(text);
                                     // document.createTextNode(text);
@@ -226,4 +229,58 @@ function generateTable(table, data) {
 
     }
 
+}
+
+//FUNCTIONS FOR DETAILS PAGE
+
+function displaySelectedHouse() {
+    const requestURL = url;
+    const ourRequest = new XMLHttpRequest();
+    ourRequest.open('GET', requestURL);
+    ourRequest.onload =
+        //use json function to read the text from the response and split into a javascript array
+        function () {
+            let ourData = JSON.parse(ourRequest.responseText);
+            //call function to use image id clicked on to determine what data display
+            let houseToDisplay = getSelectedHouse(ourData);
+            console.log(houseToDisplay);
+            displayHouseDetails(houseToDisplay);
+        };
+    ourRequest.send();
+}
+
+function getSelectedHouse(data) {
+    for (let object of data) {
+        for (let field in object) {
+            if (field == "imageurl") {
+                if (object[field] == imgId) {
+                    correctObject = true;
+                }
+            }
+        }
+        console.log(correctObject);
+        if (correctObject == true) {
+            selectedHouse = object;
+            break;
+        }
+    }
+    return selectedHouse;
+}
+function displayHouseDetails(house){
+    console.log(house.price);
+    let imgString = urlShort + house.imageurl;
+    console.log(imgString);
+    let displayString = "<p>Price: " + house.price + "</p>" +
+                        "<p>Year Built: " + house.yrblt + "</p>" +
+                        "<p>Beds: " + house.beds + "</p>" +
+                        "<p>Baths: " + house.baths + "</p>" +
+                        "<p><img src='" + imgString + "' height='300px' width='450px' /></p>";
+    console.log(displayString);
+    document.getElementById("details").innerHTML = displayString;
+    //document.writeln(displayString);
+}
+//executed when image link is clicked to remember which item to display
+function setHouseObject(id) {
+    imgId = id;
+    console.log(imgId);
 }
