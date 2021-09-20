@@ -4,6 +4,24 @@ const url = "http://3.21.225.172:8080/api/realestate/all";
 const urlShort = "http://3.21.225.172:8080/api/";
 let minPrice = 0;
 let maxPrice = 10000000000000000000;
+const exampleHouse = {
+    id: 2091,
+    fname: "Dorci'A",
+    lname: "Rannila",
+    yrblt: "2018-06-06T22:45:52.247Z",
+    price: 500000,
+    new: true,
+    sqft: 6200,
+    baths: 7,
+    beds: 4,
+    street: "1484 Massa Ct",
+    city: "Collierville",
+    state: "TN",
+    zip: 38027,
+    listing: "MIDSOUTH RESIDENTIAL LLC",
+    image: "house-7.jpg"
+};
+let mostExpensiveHouse = exampleHouse;
 //functions for home page
 function displayTopHouses() {
     const requestURL = url;
@@ -13,11 +31,9 @@ function displayTopHouses() {
         //use json function to read the text from the response and split into a javascript array
         function () {
             let ourData = JSON.parse(ourRequest.responseText);
-            //scan through data to determine where there is a match in price
-            //calls function that generates table with array ourData
-            findHighestPrice(ourData);
-
-
+            //call function to get listing with highest price and insert correct IMGURL into img element
+            document.getElementById("expensive").src = findHighestPrice(ourData);
+            document.getElementById("big").src = findBiggestHouse(ourData);
         };
     ourRequest.send();
 }
@@ -25,8 +41,7 @@ function displayTopHouses() {
 
 function findHighestPrice(data) {
     let highestPrice = 0;
-    let mostExpensive = data[0];
-    let idMostExpensive = 1;
+    let mostExpensiveObject = data[0];
     let mostExpensiveImg = "http://3.21.225.172:8080/api/house-1.jpg"
     for (let house in data) {
         for (let object of data) {
@@ -37,16 +52,36 @@ function findHighestPrice(data) {
                     if (listingPrice > highestPrice) {
                         highestPrice = listingPrice;
                         mostExpensiveImg = urlShort + imgLink;
+                        mostExpensiveObject = object;
                     }
                 }
             }
 
         }
     }
-    console.log(highestPrice);
-    console.log(mostExpensiveImg);
+    return mostExpensiveImg;
 }
+function findBiggestHouse(data) {
+    let biggestHouse = 0;
+    let biggestHouseImg = "http://3.21.225.172:8080/api/house-1.jpg"
+    for (let house in data) {
+        for (let object of data) {
+            let imgLink = object.imageurl;
+            for (let field in object) {
+                if (field == "sqft") {
+                    let listingSqft = object[field];
+                    if (listingSqft > biggestHouse) {
+                        biggestHouse = listingSqft;
+                        biggestHouseImg = urlShort + imgLink;
+                    }
+                }
+            }
 
+        }
+    }
+    console.log(biggestHouse);
+    return biggestHouseImg;
+}
 //functions for listings page
 function requestListings() {
     //request user entered parameter to determine low price and high price -- if fields left empty keep values as set above
