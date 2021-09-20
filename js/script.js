@@ -31,9 +31,11 @@ function displayTopHouses() {
         //use json function to read the text from the response and split into a javascript array
         function () {
             let ourData = JSON.parse(ourRequest.responseText);
-            //call function to get listing with highest price and insert correct IMGURL into img element
+            //call function to get listing with highest price, biggest square footage, most rooms and most bathrooms and insert correct IMGURL into img element
             document.getElementById("expensive").src = findHighestPrice(ourData);
             document.getElementById("big").src = findBiggestHouse(ourData);
+            document.getElementById("rooms").src = findMostRooms(ourData);
+            document.getElementById("baths").src = findMostBaths(ourData);
         };
     ourRequest.send();
 }
@@ -82,6 +84,51 @@ function findBiggestHouse(data) {
     console.log(biggestHouse);
     return biggestHouseImg;
 }
+
+function findMostRooms(data) {
+    let mostRooms = 0;
+    let mostRoomsImg = "http://3.21.225.172:8080/api/house-1.jpg"
+    for (let house in data) {
+        for (let object of data) {
+            let imgLink = object.imageurl;
+            for (let field in object) {
+                if (field == "beds") {
+                    let listingBeds = object[field];
+                    if (listingBeds > mostRooms) {
+                        mostRooms = listingBeds;
+                        mostRoomsImg = urlShort + imgLink;
+                    }
+                }
+            }
+
+        }
+    }
+    console.log(mostRooms);
+    return mostRoomsImg;
+}
+
+function findMostBaths(data) {
+    let mostBaths = 0;
+    let mostBathsImg = "http://3.21.225.172:8080/api/house-1.jpg"
+    for (let house in data) {
+        for (let object of data) {
+            let imgLink = object.imageurl;
+            for (let field in object) {
+                if (field == "baths") {
+                    let listingBaths = object[field];
+                    if (listingBaths > mostBaths) {
+                        mostBaths = listingBaths;
+                        mostBathsImg = urlShort + imgLink;
+                    }
+                }
+            }
+
+        }
+    }
+    console.log(mostBaths);
+    return mostBathsImg;
+}
+
 //functions for listings page
 function requestListings() {
     //request user entered parameter to determine low price and high price -- if fields left empty keep values as set above
