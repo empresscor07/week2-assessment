@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="css\style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script scr="js\script.js"></script>
+    <script src="js\script.js"></script>
     <script>
-
+        //when home page is loaded
         $(document).ready(function (){
             $("#fade-effect").mouseleave(function (){
                 $("#fade-in").fadeOut("slow");
@@ -24,6 +24,8 @@
 
             // run every 4s
             setInterval('cycleImages()', 4000);
+            //calls a function from script.js to display the home with highest price
+            displayTopHouses();
         });
         function cycleImages(){
             var $active = $('#houses .active');

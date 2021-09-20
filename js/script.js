@@ -4,6 +4,50 @@ const url = "http://3.21.225.172:8080/api/realestate/all";
 const urlShort = "http://3.21.225.172:8080/api/";
 let minPrice = 0;
 let maxPrice = 10000000000000000000;
+//functions for home page
+function displayTopHouses() {
+    const requestURL = url;
+    const ourRequest = new XMLHttpRequest();
+    ourRequest.open('GET', requestURL);
+    ourRequest.onload =
+        //use json function to read the text from the response and split into a javascript array
+        function () {
+            let ourData = JSON.parse(ourRequest.responseText);
+            //scan through data to determine where there is a match in price
+            //calls function that generates table with array ourData
+            findHighestPrice(ourData);
+
+
+        };
+    ourRequest.send();
+}
+
+
+function findHighestPrice(data) {
+    let highestPrice = 0;
+    let mostExpensive = data[0];
+    let idMostExpensive = 1;
+    let mostExpensiveImg = "http://3.21.225.172:8080/api/house-1.jpg"
+    for (let house in data) {
+        for (let object of data) {
+            let imgLink = object.imageurl;
+            for (let field in object) {
+                if (field == "price") {
+                    let listingPrice = object[field];
+                    if (listingPrice > highestPrice) {
+                        highestPrice = listingPrice;
+                        mostExpensiveImg = urlShort + imgLink;
+                    }
+                }
+            }
+
+        }
+    }
+    console.log(highestPrice);
+    console.log(mostExpensiveImg);
+}
+
+//functions for listings page
 function requestListings() {
     //request user entered parameter to determine low price and high price -- if fields left empty keep values as set above
     if (document.getElementById("min_price").value !== "") {
@@ -21,14 +65,14 @@ function requestListings() {
     ourRequest.onload =
         //use json function to read the text from the response and split into a javascript array
         function () {
-            var ourData = JSON.parse(ourRequest.responseText);
+            let ourData = JSON.parse(ourRequest.responseText);
             //scan through data to determine where there is a match in price
             //calls function that generates table with array ourData
             updateData(ourData);
         };
     ourRequest.send();
 }
-//fu
+//function to  change data displayed on page
 function updateData(data) {
     //Clear out table data if it exists
     if (document.getElementById("records").innerHTML != ""){
@@ -53,7 +97,6 @@ function generateTableHead(table) {
 }
 //function to create and fill the data fields of the results table
 function generateTable(table, data) {
-    console.log(data);
     for (let object of data){
         for (let field in object) {
             if (field == "price") {
