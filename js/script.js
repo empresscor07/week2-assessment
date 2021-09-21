@@ -21,7 +21,7 @@ const exampleHouse = {
     state: "TN",
     zip: 38027,
     listing: "MIDSOUTH RESIDENTIAL LLC",
-    image: "house-7.jpg"
+    image: ""
 };
 let selectedHouse = exampleHouse;
 
@@ -144,9 +144,7 @@ function requestListings() {
     if (document.getElementById("details").innerHTML != "") {
         document.getElementById("details").innerHTML = "";
     }
-    console.clear();
-    console.log(minPrice);
-    console.log(maxPrice);
+
     //add request value to url string to create final url
     const requestURL = url;
     const ourRequest = new XMLHttpRequest();
@@ -231,13 +229,10 @@ function displaySelectedHouse() {
 }
 
 function getSelectedHouse(data) {
+    correctObject = false;
     for (let object of data) {
-        for (let field in object) {
-            if (field == "imageurl") {
-                if (object[field] == imgId) {
-                    correctObject = true;
-                }
-            }
+        if (object.imageurl == imgId) {
+            correctObject = true;
         }
         console.log(correctObject);
         if (correctObject == true) {
