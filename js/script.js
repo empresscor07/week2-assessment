@@ -1,29 +1,13 @@
-let btn = document.getElementById("btn");
-let listingCont = document.getElementById("listing-cont");
+//let btn = document.getElementById("btn");
+//let listingCont = document.getElementById("listing-cont");
 const url = "http://3.21.225.172:8080/api/realestate/all";
 const urlShort = "http://3.21.225.172:8080/api/";
 let minPrice = 0;
 let maxPrice = 10000000000000000000;
 let imgId = "house-7.jpg"
-let correctObject = false;
-const exampleHouse = {
-    id: 2091,
-    fname: "Dorci'A",
-    lname: "Rannila",
-    yrblt: "2018-06-06T22:45:52.247Z",
-    price: 500000,
-    new: true,
-    sqft: 6200,
-    baths: 7,
-    beds: 4,
-    street: "1484 Massa Ct",
-    city: "Collierville",
-    state: "TN",
-    zip: 38027,
-    listing: "MIDSOUTH RESIDENTIAL LLC",
-    image: ""
-};
-let selectedHouse = exampleHouse;
+let correctObject;
+let selectedHouse;
+
 
 //FUNCTIONS FOR INDEX PAGE (HOME PAGE)
 function displayTopHouses() {
@@ -47,7 +31,7 @@ function displayTopHouses() {
 function findHighestPrice(data) {
     let highestPrice = 0;
     let mostExpensiveObject = data[0];
-    let mostExpensiveImg = "http://3.21.225.172:8080/api/house-1.jpg"
+    let mostExpensiveImg = "http://3.21.225.172:8080/api/house-7.jpg"
     for (let house in data) {
         for (let object of data) {
             let imgLink = object.imageurl;
@@ -68,7 +52,7 @@ function findHighestPrice(data) {
 }
 function findBiggestHouse(data) {
     let biggestHouse = 0;
-    let biggestHouseImg = "http://3.21.225.172:8080/api/house-1.jpg"
+    let biggestHouseImg = "http://3.21.225.172:8080/api/house-7.jpg"
     for (let house in data) {
         for (let object of data) {
             let imgLink = object.imageurl;
@@ -90,7 +74,7 @@ function findBiggestHouse(data) {
 
 function findMostRooms(data) {
     let mostRooms = 0;
-    let mostRoomsImg = "http://3.21.225.172:8080/api/house-1.jpg"
+    let mostRoomsImg = "http://3.21.225.172:8080/api/house-7.jpg"
     for (let house in data) {
         for (let object of data) {
             let imgLink = object.imageurl;
@@ -112,7 +96,7 @@ function findMostRooms(data) {
 
 function findMostBaths(data) {
     let mostBaths = 0;
-    let mostBathsImg = "http://3.21.225.172:8080/api/house-1.jpg"
+    let mostBathsImg = "http://3.21.225.172:8080/api/house-7.jpg"
     for (let house in data) {
         for (let object of data) {
             let imgLink = object.imageurl;
@@ -141,9 +125,7 @@ function requestListings() {
     if (document.getElementById("max_price").value !== "") {
         maxPrice = document.getElementById("max_price").value
     }
-    if (document.getElementById("details").innerHTML != "") {
-        document.getElementById("details").innerHTML = "";
-    }
+    document.getElementById("card-container").innerHTML = "";
 
     //add request value to url string to create final url
     const requestURL = url;
@@ -155,57 +137,55 @@ function requestListings() {
             let ourData = JSON.parse(ourRequest.responseText);
             //scan through data to determine where there is a match in price
             //calls function that generates table with array ourData
-            updateData(ourData);
+            generateCards(ourData);
         };
     ourRequest.send();
 }
-//function to  change data displayed on page
-function updateData(data) {
-    //Clear out table data if it exists
-    if (document.getElementById("records").innerHTML != ""){
-        document.getElementById("records").innerHTML = "";
-    }
-    //generate updated table data
-    let table = document.querySelector("table");
-    generateTableHead(table);
-    generateTable(table, data);
-}
-//function to create the row of table header data
-function generateTableHead(table) {
-    const fields = ["Price", "Square Ft.", "Baths", "Beds", "Photo"];
-    let thead = table.createTHead();
-    let row = thead.insertRow();
-    for (let item of fields) {
-        let th = document.createElement("th");
-        let text = document.createTextNode(item);
-        th.appendChild(text);
-        row.appendChild(th);
-    }
-}
-//function to create and fill the data fields of the results table
-function generateTable(table, data) {
+
+//function to create and fill card elements with results
+
+function generateCards(data) {
+
     for (let object of data) {
         let listingPrice = object.price;
+        console.log(listingPrice);
         if (listingPrice >= minPrice && listingPrice <= maxPrice) {
-            console.log(listingPrice);
-            let row = table.insertRow();
-            let cell = row.insertCell();
-            let text = document.createTextNode(object.price);
-            cell.appendChild(text);
-            cell = row.insertCell();
-            text = document.createTextNode(object.sqft);
-            cell.appendChild(text);
-            cell = row.insertCell();
-            text = document.createTextNode(object.baths);
-            cell.appendChild(text);
-            cell = row.insertCell();
-            text = document.createTextNode(object.beds);
-            cell.appendChild(text);
-            cell = row.insertCell();
+            let cardContainer = document.getElementById('card-container');
+
+            let card = document.createElement('div');
+            card.className = 'card col-sm-4';
+
+            let cardBody = document.createElement('div');
+            cardBody.className = 'card-body bg-info';
+
+            let price = document.createElement('h3');
+            let dollarUSLocale = Intl.NumberFormat('en-US');
+            let displayPrice = dollarUSLocale.format(object.price);
+            price.innerHTML = "$" + displayPrice;
+
+            let sqft = document.createElement('p');
+            sqft.innerHTML = object.beds + " bed  " + object.baths + " baths  " + object.sqft + " sqft ";
+
+            let pic = document.createElement('img')
             let imgURL = urlShort + object.imageurl;
-            let picName = object.imageurl;
-            text = "<button class='link' id= '" + picName + "' onclick='setHouseObject(this.id)'><img height=100 width=160 src='" + imgURL + "' /></button>";
-            cell.innerHTML = text;
+            pic.src = imgURL;
+
+            pic.className = 'card-img-top img-fluid mx-auto d-block';
+            pic.id = object.imageurl;
+            pic.onclick = function () {
+                imgId = this.id;
+                console.log(imgId);
+
+                displaySelectedHouse();
+            }
+
+
+            cardBody.appendChild(price);
+            cardBody.appendChild(sqft);
+            cardBody.appendChild(pic);
+            //card.appendChild(cardHeader);
+            card.appendChild(cardBody);
+            cardContainer.appendChild(card);
         }
     }
 }
@@ -213,6 +193,7 @@ function generateTable(table, data) {
 //FUNCTIONS FOR DETAILS PAGE
 
 function displaySelectedHouse() {
+    document.getElementById("card-container").innerHTML = "";
     const requestURL = url;
     const ourRequest = new XMLHttpRequest();
     ourRequest.open('GET', requestURL);
@@ -242,23 +223,66 @@ function getSelectedHouse(data) {
     }
     return selectedHouse;
 }
-function displayHouseDetails(house){
+function displayHouseDetails(house) {
+    document.getElementById("card-container").innerHTML = "";
     console.log(house.price);
     let imgString = urlShort + house.imageurl;
     console.log(imgString);
-    let displayString = "<p>Price: " + house.price + "</p>" +
-        "<p>Year Built: " + house.yrblt + "</p>" +
-        "<p>Beds: " + house.beds + "</p>" +
-        "<p>Baths: " + house.baths + "</p>" +
-        "<p><img src='" + imgString + "' height='300px' width='450px' /></p>";
-    console.log(displayString);
-    document.getElementById("details").innerHTML = displayString;
-    //document.writeln(displayString);
-}
-//executed when image link is clicked to remember which item to display
-function setHouseObject(clicked) {
-    imgId = clicked;
-    console.log(imgId);
-    document.getElementById("records").innerHTML = "";
-    displaySelectedHouse();
+    let cardContainer = document.getElementById('card-container');
+
+    let card = document.createElement('div');
+    card.className = 'card';
+
+    let cardBody = document.createElement('div');
+    cardBody.className = 'card-body bg-info';
+
+    let price = document.createElement('h3');
+    let dollarUSLocale = Intl.NumberFormat('en-US');
+    let displayPrice = dollarUSLocale.format(house.price);
+    price.innerHTML = "Listing Price: $" + displayPrice;
+
+    let sqft = document.createElement('p');
+    sqft.innerHTML = house.beds + " bed  " + house.baths + " baths  " + house.sqft + " sqft ";
+
+    let address = document.createElement('p');
+    address.innerHTML = house.street + ", " + house.city + ", " + house.state + " " + house.zip;
+
+    //displays info about age of house - if new build then states so
+    let age = document.createElement('p');
+    const year = new Date(house.yrblt);
+    console.log(house.isnew);
+    if (house.isnew) {
+        age.innerHTML = "NEW BUILD " + "Year Built: " + year.getFullYear().toString();
+    }
+    else {
+        age.innerHTML = "Year Built: " + year.getFullYear().toString();
+    }
+
+    let pic = document.createElement('img')
+    let imgURL = urlShort + house.imageurl;
+    pic.src = imgURL;
+    pic.className = 'card-img-top img-fluid mx-auto d-block';
+    pic.id = house.imageurl;
+
+    let realtor = document.createElement('p');
+    realtor.innerHTML = "Presented by: " + house.fname + " " + house.lname;
+
+    let broker = document.createElement('p');
+    broker.innerHTML = "Brokered by: " + house.listing;
+
+    let phone = document.createElement('p');
+    phone.innerHTML = "Phone: " + house.phone;
+
+    //puts all created detail elements into card container
+    cardBody.appendChild(price);
+    cardBody.appendChild(sqft);
+    cardBody.appendChild(address);
+    cardBody.appendChild(age);
+    cardBody.appendChild(pic);
+    cardBody.appendChild(realtor);
+    cardBody.appendChild(broker);
+    cardBody.appendChild(phone);
+    card.appendChild(cardBody);
+    cardContainer.appendChild(card);
+
 }

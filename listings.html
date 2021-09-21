@@ -9,21 +9,17 @@
     <script src="js\script.js"></script>
     <link rel="stylesheet" href="css\style.css">
     <style>
-        table{background: #f7fafc;}
-        table td{border-bottom:1px solid #ccc;padding:4px;margin:0}
+        .card-img-top {
+            width: 100%;
+        }
+        .card-body {
+            background: #f5f6f7;
+            margin: 5px;
+            border-style: solid;
+            border-width: thin;
+        }
+
     </style>
-    <script>
-            //when home page is loaded
-            $(document).ready(function (){
-
-
-             });
-            $('.link').click(function(){
-                console.log("hell");
-                imgId = this.id;
-                alert(imgId);
-            });
-    </script>
 </head>
 <body>
 <div id="page-container">
@@ -60,16 +56,7 @@
         <input type="text" id="max_price"><br>
         <input type="button" id="btn" value="Search" onclick="requestListings()">
     </form>
-    <div id="listing-cont" class="container">
-        <p id="test"></p>
-
-        <table id="records">
-            <!-- here goes our data! -->
-        </table>
-    </div>
-    <div id="details" class="container">
-
-    </div>
+    <div id='card-container' class="row"></div>
 </div>
 </div>
 <!--footer-->
