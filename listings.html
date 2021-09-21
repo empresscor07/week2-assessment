@@ -16,7 +16,13 @@
             //when home page is loaded
             $(document).ready(function (){
 
-        });
+
+             });
+            $('.link').click(function(){
+                console.log("hell");
+                imgId = this.id;
+                alert(imgId);
+            });
     </script>
 </head>
 <body>
@@ -60,6 +66,9 @@
         <table id="records">
             <!-- here goes our data! -->
         </table>
+    </div>
+    <div id="details" class="container">
+
     </div>
 </div>
 </div>
