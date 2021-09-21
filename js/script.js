@@ -170,7 +170,7 @@ function generateCards(data) {
             let imgURL = urlShort + object.imageurl;
             pic.src = imgURL;
 
-            pic.className = 'card-img-top img-fluid mx-auto d-block';
+            pic.className = 'card-img-top img-fluid mx-auto d-block stretched-link';
             pic.id = object.imageurl;
             pic.onclick = function () {
                 imgId = this.id;
@@ -209,6 +209,7 @@ function displaySelectedHouse() {
     ourRequest.send();
 }
 
+//uses saved image element id clicked on to determine which listing needs to be displayed
 function getSelectedHouse(data) {
     correctObject = false;
     for (let object of data) {
@@ -261,7 +262,7 @@ function displayHouseDetails(house) {
     let pic = document.createElement('img')
     let imgURL = urlShort + house.imageurl;
     pic.src = imgURL;
-    pic.className = 'card-img-top img-fluid mx-auto d-block';
+    pic.className = 'card-img-top small img-fluid mx-auto d-block';
     pic.id = house.imageurl;
 
     let realtor = document.createElement('p');
