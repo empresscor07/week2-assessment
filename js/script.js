@@ -8,115 +8,58 @@ let imgId = "house-7.jpg"
 let correctObject;
 let selectedHouse;
 
-
 //FUNCTIONS FOR INDEX PAGE (HOME PAGE)
 function displayTopHouses() {
-    const requestURL = url;
     const ourRequest = new XMLHttpRequest();
-    ourRequest.open('GET', requestURL);
+    ourRequest.open('GET', url);
+    ourRequest.send();
     ourRequest.onload =
         //use json function to read the text from the response and split into a javascript array
         function () {
             let ourData = JSON.parse(ourRequest.responseText);
             //call function to get listing with highest price, biggest square footage, most rooms and most bathrooms and insert correct IMGURL into img element
-            document.getElementById("expensive").src = findHighestPrice(ourData);
-            document.getElementById("big").src = findBiggestHouse(ourData);
-            document.getElementById("rooms").src = findMostRooms(ourData);
-            document.getElementById("baths").src = findMostBaths(ourData);
+
+            document.getElementById("expensive").src = bestHouseFinder(ourData, "price");
+            document.getElementById("big").src = bestHouseFinder(ourData, "sqft");
+            document.getElementById("rooms").src = bestHouseFinder(ourData, "beds");
+            document.getElementById("baths").src = bestHouseFinder(ourData, "baths");
         };
-    ourRequest.send();
+
 }
 
-
-function findHighestPrice(data) {
-    let highestPrice = 0;
-    let mostExpensiveObject = data[0];
-    let mostExpensiveImg = "http://3.21.225.172:8080/api/house-7.jpg"
-    for (let house in data) {
-        for (let object of data) {
-            let imgLink = object.imageurl;
-            for (let field in object) {
-                if (field == "price") {
-                    let listingPrice = object[field];
-                    if (listingPrice > highestPrice) {
-                        highestPrice = listingPrice;
-                        mostExpensiveImg = urlShort + imgLink;
-                        mostExpensiveObject = object;
-                    }
-                }
-            }
-
+function bestHouseFinder(arrayOfHouseObjects, searchParameter) {
+    //Initializing the number to beat as zero
+    let numberToBeat = 0;
+    //Initializing best house object as an empty object
+    let bestHouse = {};
+    //This for loop iterates over the array of objects given to it
+    for (let house of arrayOfHouseObjects) {
+        //Let's take this if statement word by word
+        //Number with a capital N is a constructor that converts the value of numbers as a string into an int type
+        //Object.values(house) returns all the values in the house object in an array
+        //Object.keys(house) returns all of the keys in the house object in an array
+        //Object.keys(house).indexOf(searchParameter) returns the index of the keyword
+        //In this case it will be set to the variable searchParameter on function call
+        //If you call this function as bestHouseFinder(bobsArray, "price")
+        //The below expression would be equal to house.price
+        if (Number(Object.values(house)[Object.keys(house).indexOf(searchParameter)]) > numberToBeat) {
+            //If the house.price is greater than the number to beat, this will dod two things
+            //It will change the number to beat to house.price, then, it will set the best house to the house object
+            numberToBeat = Number(Object.values(house)[Object.keys(house).indexOf(searchParameter)]);
+            bestHouse = house;
         }
+        //It will then iterate through the array again and if house.price > the number to beat, the if statement will fire off again
+        //If not it will do nothing
     }
-    return mostExpensiveImg;
-}
-function findBiggestHouse(data) {
-    let biggestHouse = 0;
-    let biggestHouseImg = "http://3.21.225.172:8080/api/house-7.jpg"
-    for (let house in data) {
-        for (let object of data) {
-            let imgLink = object.imageurl;
-            for (let field in object) {
-                if (field == "sqft") {
-                    let listingSqft = object[field];
-                    if (listingSqft > biggestHouse) {
-                        biggestHouse = listingSqft;
-                        biggestHouseImg = urlShort + imgLink;
-                    }
-                }
-            }
-
-        }
-    }
-    console.log(biggestHouse);
-    return biggestHouseImg;
-}
-
-function findMostRooms(data) {
-    let mostRooms = 0;
-    let mostRoomsImg = "http://3.21.225.172:8080/api/house-7.jpg"
-    for (let house in data) {
-        for (let object of data) {
-            let imgLink = object.imageurl;
-            for (let field in object) {
-                if (field == "beds") {
-                    let listingBeds = object[field];
-                    if (listingBeds > mostRooms) {
-                        mostRooms = listingBeds;
-                        mostRoomsImg = urlShort + imgLink;
-                    }
-                }
-            }
-
-        }
-    }
-    console.log(mostRooms);
-    return mostRoomsImg;
-}
-
-function findMostBaths(data) {
-    let mostBaths = 0;
-    let mostBathsImg = "http://3.21.225.172:8080/api/house-7.jpg"
-    for (let house in data) {
-        for (let object of data) {
-            let imgLink = object.imageurl;
-            for (let field in object) {
-                if (field == "baths") {
-                    let listingBaths = object[field];
-                    if (listingBaths > mostBaths) {
-                        mostBaths = listingBaths;
-                        mostBathsImg = urlShort + imgLink;
-                    }
-                }
-            }
-
-        }
-    }
-    console.log(mostBaths);
-    return mostBathsImg;
+    //After the for loop has run 50 times, or whatever the length of the array is
+    //It will return the house that had the highest value with the parameter specified
+    console.log(urlShort + bestHouse.imageurl);
+    return urlShort + bestHouse.imageurl;
 }
 
 //FUNCTIONS FOR LISTINGS PAGE
+
+//function to pull data from server when search button clicked
 function requestListings() {
     //request user entered parameter to determine low price and high price -- if fields left empty keep values as set above
     if (document.getElementById("min_price").value !== "") {
@@ -125,12 +68,11 @@ function requestListings() {
     if (document.getElementById("max_price").value !== "") {
         maxPrice = document.getElementById("max_price").value
     }
+    //clears out any previously displayed data
     document.getElementById("card-container").innerHTML = "";
 
-    //add request value to url string to create final url
-    const requestURL = url;
     const ourRequest = new XMLHttpRequest();
-    ourRequest.open('GET', requestURL);
+    ourRequest.open('GET', url);
     ourRequest.onload =
         //use json function to read the text from the response and split into a javascript array
         function () {
@@ -179,11 +121,9 @@ function generateCards(data) {
                 displaySelectedHouse();
             }
 
-
             cardBody.appendChild(price);
             cardBody.appendChild(sqft);
             cardBody.appendChild(pic);
-            //card.appendChild(cardHeader);
             card.appendChild(cardBody);
             cardContainer.appendChild(card);
         }
@@ -194,9 +134,8 @@ function generateCards(data) {
 
 function displaySelectedHouse() {
     document.getElementById("card-container").innerHTML = "";
-    const requestURL = url;
     const ourRequest = new XMLHttpRequest();
-    ourRequest.open('GET', requestURL);
+    ourRequest.open('GET', url);
     ourRequest.onload =
         //use json function to read the text from the response and split into a javascript array
         function () {
