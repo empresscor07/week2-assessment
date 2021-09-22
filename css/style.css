@@ -1,4 +1,6 @@
 /* Styles to override bootstrap stylesheet */
+
+/* Creates the img fade effect on index.html */
 #houses{
     position:relative;
     display: block;
@@ -20,11 +22,42 @@
     margin-left: auto;
     margin-right: auto;
 }
+.placeholder #houses img{
+    width: 100%;
+    height: 100%;
+}
+.placeholder #houses {
+    width: 506px;
+    height: 340px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+/* used to create other animation effects on index.html*/
 #fade-in{
     position:relative;
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+.pic-holder{
+    height: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.pic-holder #fade-in h3{
+    display: inline;
+}
+.pic-holder #fade-in img {
+    width: 20%;
+}
+.fade-in{
+    display: none;
+}
+#slide{
+    display: none;
 }
 
 /* background image */
@@ -32,7 +65,6 @@
      width: 100%;
      display: block;
      position: relative;
-     background-image: url('http://www.lauraandkevinfox.com/wp-content/uploads/2016/02/Real-Estate-Today-Laura-And-Kevin-Fox-2.jpg');
      background-image: url(https://assets.dmagstatic.com/wp-content/uploads/2019/07/dallas-real-estate-market-2.jpg) ;
 }
 
@@ -52,60 +84,41 @@
      font-family: Bell;
  }
 
-
-/* classes for individual style */
-.main h2 {
-     color: #483D8B;
-     text-align: center;
- }
-.main{
-    margin-bottom: 130px;
-}
- .navbar{
-     margin-bottom:0;
- }
-
- .display-4 {
-     text-align: center;
-     color: #483D8B;
- }
-.placeholder #houses img{
-    width: 100%;
-    height: 100%;
-}
-.placeholder #houses {
-    width: 506px;
-    height: 340px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
- .pic-holder{
-     height: 20px;
-     margin-top: 10px;
-     margin-bottom: 10px;
- }
-
-.pic-holder #fade-in h3{
-    display: inline;
-}
-.pic-holder #fade-in img {
-    width: 20%;
-}
-.fade-in{
-    display: none;
-}
-#slide{
-    display: none;
-}
-
 /* Standard element styles */
 body{
     background: #dfe9f5;
     background-image: url(Mobile-Background.jpg);
 }
+footer{
+    text-align: center;
+    background: #a3b9d4;
+
+    padding: 5px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: #495b70;
+}
+
+/* general display styles */
  .center{
      text-align: center;
  }
+
+.main h2 {
+    color: #483D8B;
+    text-align: center;
+}
+.main{
+    margin-bottom: 130px;
+}
+.navbar{
+    margin-bottom:0;
+}
+
+.display-4 {
+    text-align: center;
+    color: #483D8B;
+}
 img.png {
      display: block;
      margin-left: auto;
@@ -115,15 +128,6 @@ img.png {
      margin-bottom: 10px;
  }
 
-footer{
-     text-align: center;
-     background: #a3b9d4;
-
-     padding: 5px;
-     border-top-style: solid;
-     border-top-width: 1px;
-     border-top-color: #495b70;
- }
 
 /* keeps footer at the bottom */
 #page-container {

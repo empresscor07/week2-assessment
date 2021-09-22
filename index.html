@@ -11,28 +11,31 @@
     <script>
         //when home page is loaded
         $(document).ready(function (){
-            $("#fade-effect").mouseleave(function (){
-                $("#fade-in").fadeOut("slow");
-            });
+            //These are my fade in and out and slide down effects for some text and and a small logo
             $("#fade-effect").mouseenter(function (){
                 $("#fade-in").fadeIn("slow");
+            });
+            $("#fade-effect").mouseleave(function (){
+                $("#fade-in").fadeOut("slow");
             });
             $("#slide-event").mouseenter(function (){
                 $("#slide").slideDown("slow");
             });
 
-
-            // run every 4s
+            //TOP HOUSES SLIDE SHOW
+            // run every 4s to change the main image to one of the top houses
             setInterval('cycleImages()', 4000);
-            //calls a function from script.js to display the home with highest price
+            //calls a function from script.js to display the home with highest price, most sq ft, most beds and most baths
             displayTopHouses();
         });
+
+        //FUNCTION TO CHANGE THE STATE (via style and class attributes) OF IMG ELEMENTS
         function cycleImages(){
-            var $active = $('#houses .active');
-            var $next = ($active.next().length > 0) ? $active.next() : $('#houses img:first');
+            var $active = $('#houses .active'); //puts active img element into variable
+            var $next = ($active.next().length > 0) ? $active.next() : $('#houses img:first'); //puts next in line img element into variable
             $next.css('z-index',2);//move the next image up the pile
             $active.fadeOut(1500,function(){//fade out the top image
-                $active.css('z-index',1).show().removeClass('active');//reset the z-index and unhide the image
+                $active.css('z-index',1).show().removeClass('active');//reset the z-index and changes from hide to show
                 $next.css('z-index',3).addClass('active');//make the next image the top one
             });
         }
@@ -42,18 +45,19 @@
 <body>
 <!--Navigation Bar-->
 <div id="page-container">
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">J & B Real Estate</a>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">J & B Real Estate</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="listings.html">Listings</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
         </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="listings.html">Listings</a></li>
-            <li><a href="about.html">About Us</a></li>
-        </ul>
-    </div>
-</nav>
+    </nav>
 
 <!--Page title-->
 <div id="slide-event" class="background jumbotron jumbotron-fluid text-center">
@@ -71,10 +75,10 @@
     <div class="placeholder row">
         <div class="column-sm-4"></div>
         <div class="column-sm-4" id="houses">
-            <img id="expensive" class="active img-fluid" alt="My image" />
-            <img id="big" class="img-fluid" alt="My image"  />
-            <img id="rooms" class="img-fluid" alt="My image" />
-            <img id="baths" class="img-fluid"  alt="My image" />
+            <img id="expensive" class="active img-fluid" alt="Most expensive house" />
+            <img id="big" class="img-fluid" alt="House with most sq ft"  />
+            <img id="rooms" class="img-fluid" alt="House with most Bedrooms" />
+            <img id="baths" class="img-fluid"  alt="House with most bathrooms" />
         </div>
         <div class="column-sm-4"></div>
 
