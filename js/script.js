@@ -1,7 +1,7 @@
 //let btn = document.getElementById("btn");
 //let listingCont = document.getElementById("listing-cont");
-const url = "http://3.21.225.172:8080/api/realestate/all";
-const urlShort = "http://3.21.225.172:8080/api/";
+const url = "http://localhost:8081/realestate/all";
+const urlShort = "http://localhost:8081/";
 let minPrice = 0;
 let maxPrice = 10000000000000000000;
 let imgId = "house-7.jpg"
@@ -105,6 +105,7 @@ function generateCards(data) {
 
             let pic = document.createElement('img')
             let imgURL = urlShort + object.imageurl;
+            console.log(imgURL)
             pic.src = imgURL;
 
             pic.className = 'card-img-top img-fluid';
@@ -198,6 +199,7 @@ function displayHouseDetails(house) {
 
     let pic = document.createElement('img')
     let imgURL = urlShort + house.imageurl;
+    console.log(imgURL)
     pic.src = imgURL;
     pic.className = 'card-img-top small img-fluid mx-auto d-block';
     pic.id = house.imageurl;

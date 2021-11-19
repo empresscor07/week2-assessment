@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Customers - J&B Real Estate Partners</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="js\scriptCustomer.js"></script>
+    <script>
+        $(document).ready(function (){
+
+            requestCustomers();
+        });
+    </script>
+    <link rel="stylesheet" href="css\style.css">
+    <style>
+        .card-img-top {
+            width: 100%;
+        }
+        .small {
+            max-width: 70%;
+            height: auto;
+        }
+
+        .card-body {
+            background: #f5f6f7;
+            margin: 5px;
+            border-style: solid;
+            border-width: thin;
+        }
+
+    </style>
+</head>
+<body>
+<div id="page-container">
+    <!--Navigation Bar-->
+    <div id="content-wrap">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">J & B Real Estate</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Listings</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li class="active"><a href="#">Customers</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!--Page title-->
+        <div class="background jumbotron jumbotron-fluid text-center">
+            <div class="transbox">
+                <h1>Our Valued Customers</h1>
+                <h3>Johnson & Burns Real Estate</h3>
+            </div>
+        </div>
+
+        <!--main content-->
+        <div class="container-fluid main display-4">
+            <button onclick="requestCustomersByRowNumber()">Show 2 customers</button>
+            <div id='card-container' class="row"></div>
+        </div>
+    </div>
+    <!--footer-->
+
+    <footer id="footer">Johnson & Burns Proud Partners in Real Estate since &copy 2021</footer>
+</div>
+</body>
+
+
+</html>
